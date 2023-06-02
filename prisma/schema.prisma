@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  CANDIDATE
+  EMPLOYER
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  favoriteIds    String[]  @db.ObjectId
+
+  role UserRole @default(USER)
+
+  accounts Account[]
+  resume   Resume[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// model Categories {
+//   id             String @id @default(auto()) @map("_id") @db.ObjectId
+//   title String
+//   createdAt DateTime @default(now())
+// }
+
+model Resume {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  yourName  String
+  yourEmail String
+  region    String?
+  location  String?
+  photoSrc  String?
+  fileSrc   String?
+  videoSrc  String?
+  category  String
+  minrate   String?
+  content   String
+  skills    String?
+  createdAt DateTime @default(now())
+
+  urls       Urls[]
+  education  Education[]
+  experience Experience[]
+
+  userId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Urls {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  url    String
+  name   String
+  urlId  String @db.ObjectId
+  resume Resume @relation(fields: [urlId], references: [id], onDelete: Cascade)
+}
+
+model Education {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  schoolname    String
+  qualification String
+  startDate     DateTime
+  endDate       DateTime
+  notes         String
+  educationId   String   @db.ObjectId
+  resume        Resume   @relation(fields: [educationId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  employer  String
+  jobTitle  String
+  startDate DateTime
+  endDate   DateTime
+  notes     String
+
+  experienceId String @db.ObjectId
+  resume       Resume @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+}
