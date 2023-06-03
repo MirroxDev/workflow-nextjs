@@ -78,17 +78,17 @@ model Resume {
   education  Education[]
   experience Experience[]
 
-  userId String @db.ObjectId
+  userId String? @db.ObjectId
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Urls {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   url    String
   name   String
-  urlId  String @db.ObjectId
-  resume Resume @relation(fields: [urlId], references: [id], onDelete: Cascade)
+  resumeId  String @db.ObjectId
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }
 
 model Education {
@@ -98,18 +98,18 @@ model Education {
   startDate     DateTime
   endDate       DateTime
   notes         String
-  educationId   String   @db.ObjectId
-  resume        Resume   @relation(fields: [educationId], references: [id], onDelete: Cascade)
+  resumeId   String   @db.ObjectId
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }
 
 model Experience {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  employer  String
-  jobTitle  String
-  startDate DateTime
-  endDate   DateTime
-  notes     String
+  employer  String?
+  jobTitle  String?
+  startDate DateTime?
+  endDate   DateTime?
+  notes     String?
 
-  experienceId String @db.ObjectId
-  resume       Resume @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  resumeId String @db.ObjectId
+  resume       Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }

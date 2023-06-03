@@ -20,7 +20,13 @@ export async function POST(request: Request) {
     minrate,
     content,
     skills,
+    experience,
   } = body;
+
+  console.log(experience);
+
+  const currentDate = new Date();
+  const currentUser = "64761d0b32474341c854601e"
 
   const resume = await prisma.resume.create({
     data: {
@@ -35,8 +41,23 @@ export async function POST(request: Request) {
       minrate,
       content,
       skills,
-      userId: "64761d0b82044341c854601e"
+      userId: currentUser,
+      experience: {
+        connectOrCreate: experience.map((exp: any) => ({
+          create: {
+            employer: exp.name,
+            jobTitle: exp.name,
+            startDate: currentDate,
+            endDate: currentDate,
+            notes: exp.age,
+          },
+          where: { id: currentUser },
+        })),
+      },
     },
+    include: {
+      experience: true
+    }
   });
 
   return NextResponse.json(resume);
