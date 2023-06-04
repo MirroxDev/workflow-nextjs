@@ -121,13 +121,13 @@ gap-8
           // console.log(employers);
 
           return (
-            <div>
+            <div key={resume.yourName}>
               <div className="text-white">{resume.yourName}</div>
               <div className="text-white">
-                {resume.experience.map((experience) => (
-                  <div>
-                    <div>{experience.employer}</div>
-                    <div>{experience.jobTitle}</div>
+                {resume.experience.map((exp: any) => (
+                  <div key={exp.employer}>
+                    <div>{exp.employer}</div>
+                    <div>{exp.jobTitle}</div>
                   </div>
                 ))}
               </div>
