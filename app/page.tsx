@@ -4,8 +4,8 @@ import { useState } from "react";
 import {
   FieldValues,
   SubmitHandler,
-  useForm,
   useFieldArray,
+  useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
 import getResume from "./actions/getResume";
@@ -15,7 +15,6 @@ export default async function Home() {
   // const router = useRouter();
   const resumes = await getResume();
   console.log(resumes);
-
   // const {
   //   register,
   //   handleSubmit,
@@ -119,7 +118,6 @@ gap-8
         {resumes.map((resume: any) => {
           // const employers = resume.experience.map((experience: any) => experience.employer);
           // console.log(employers);
-
           return (
             <div key={resume.yourName}>
               <div className="text-white">{resume.yourName}</div>
