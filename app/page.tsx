@@ -14,7 +14,6 @@ export default async function Home() {
   // const [data, setData] = useState("");
   // const router = useRouter();
   const resumes = await getResume();
-  console.log(resumes);
   // const {
   //   register,
   //   handleSubmit,
