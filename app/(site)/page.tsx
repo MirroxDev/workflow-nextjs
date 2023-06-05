@@ -8,7 +8,7 @@ import {
   useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
-import getResume from "./actions/getResume";
+import getResume from "../actions/getResume";
 
 export default async function Home() {
   // const [data, setData] = useState("");
@@ -65,6 +65,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      Home!
       {/* <form onSubmit={handleSubmit(onSubmit)}>
         <input {...register("yourName")} placeholder="yourName" />
         <input {...register("yourEmail")} placeholder="yourEmail" />
