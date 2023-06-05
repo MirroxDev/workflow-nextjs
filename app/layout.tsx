@@ -3,6 +3,8 @@ import { Roboto } from "next/font/google";
 import ToasterProvider from "./providers/ToasterProvider";
 import getCurrentUser from "./actions/getCurrentUser";
 import Navbar from "./components/navbar/Navbar";
+import LoginModal from "./components/modals/LoginModal";
+
 
 const roboto = Roboto({
   weight: "400",
@@ -19,12 +21,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
   }) {
+
   const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className={roboto.className}>
         <ToasterProvider />
-        <Navbar currentUser={currentUser}/>
+        <LoginModal />
+        <Navbar currentUser={currentUser} />
         <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>

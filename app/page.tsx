@@ -101,7 +101,7 @@ export default async function Home() {
         <p>{data}</p>
         <input type="submit" />
       </form> */}
-      <div
+      {/* <div
         className="
       pt-24
       grid
@@ -119,8 +119,8 @@ gap-8
           // console.log(employers);
           return (
             <div key={resume.yourName}>
-              <div className="text-white">{resume.yourName}</div>
-              <div className="text-white">
+              <div className="">{resume.yourName}</div>
+              <div className="">
                 {resume.experience.map((exp: any) => (
                   <div key={exp.employer}>
                     <div>{exp.employer}</div>
@@ -131,7 +131,7 @@ gap-8
             </div>
           );
         })}
-      </div>
+      </div> */}
     </main>
   );
 }

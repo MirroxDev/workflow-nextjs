@@ -1,37 +1,39 @@
 "use client";
 
 import Container from "../Container";
+import AuthorizationBox from "./AuthorizationBox";
+import Logo from "./Logo";
+import NavMenu from "./NavMenu";
 import Image from "next/image";
+import { SafeUser } from "@/app/types";
 
-const Navbar = () => {
+interface NavBarProps {
+    currentUser?: SafeUser | null;
+}
+
+const Navbar: React.FC<NavBarProps> = ({currentUser}) => {
   return (
-    <div className="bg-gray-400/60 h-[70px] border-b-2">
+    <div className="bg-gray-400/60 h-[70px] border-b-2 fixed w-full">
       <Container>
         <div className="flex flex-row justify-between items-center border-l-2 border-r-2">
-          <div
-            id="logo"
-            className="flex flex-row items-center justify-center gap-2 px-3 h-full border-r-2"
-          >
-            <Image
-              alt="Logo"
-              src="/images/logo.png"
-              width={70}
-              height={70}
-              className="aspect-square"
-            />
-            <div className="hidden sm:block font-bold text-2xl text-white">
-              Workflow
-            </div>
-          </div>
-          <div
-            id="menu"
-            className="flex flex-row items-center justify-center gap-2 min-h-full"
-          >
-            logo
-          </div>
-          <div id="login" className=" border-l-2 flex items-center h-[70px]">
-            <div className="flex items-center h-[70px]">logo</div>
-          </div>
+          <Logo />
+                  <NavMenu />
+                  
+                  {currentUser ? (
+                      <div className="border-l-2 flex items-center h-[70px] px-3 flex-row gap-2">
+                          {currentUser.name}
+                          <Image
+                              alt="User Avatar"
+                              src={currentUser.image}
+                              width={30}
+                              height={30}
+                          />
+                  </div>
+                  
+                  ): (
+                      <AuthorizationBox /> 
+                  )}
+                  
         </div>
       </Container>
     </div>
