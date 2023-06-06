@@ -15,17 +15,14 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-    const { role: string } = body;
-    
-    console.log(body.role);
-    console.log(currentUser.email);
-    
+  const { role: string } = body;
 
-  if (body.role !== "CANDIDATE" && body.role !== "EMPLOYER") {
-      return NextResponse.error();
-    }
-    
-    console.log("ВСЁ ОК")
+  console.log(body.role.toString());
+  const bodyRole = body.role.toString();
+
+  if (bodyRole !== "CANDIDATE" && bodyRole !== "EMPLOYER") {
+    return NextResponse.error();
+  }
 
   if (currentUser.email !== null) {
     const roleChange = await prisma.user.update({
@@ -33,7 +30,7 @@ export async function POST(request: Request) {
         email: currentUser.email,
       },
       data: {
-        role: body.role,
+        role: bodyRole,
       },
     });
 

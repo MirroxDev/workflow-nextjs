@@ -37,8 +37,7 @@ export default async function DashboardLayout({
       <html lang="en">
         <body className={roboto.className}>
           <ToasterProvider />
-          <div className="flex flex-row items-center justify-center h-screen">
-            {currentUser.role}
+          <div className="flex flex-row items-center justify-center h-screen w-full">
             <SelectRole />
           </div>
         </body>
