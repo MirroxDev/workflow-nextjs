@@ -25,3 +25,24 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.input-base {
+  @apply bg-gray-50;
+  /* @apply border; */
+  /* @apply border-gray-300; */
+  @apply text-gray-900;
+  @apply rounded-lg;
+  /* @apply focus:border-blue-500; */
+  @apply block;
+  @apply w-full;
+  @apply p-2.5;
+  @apply mt-2;
+}
+
+.select-base {
+  @apply mt-2;
+}
+.select-base input {
+  padding: 0.25rem!important; 
+  border-radius: 0.5rem!important;
+}

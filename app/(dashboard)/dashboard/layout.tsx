@@ -26,9 +26,14 @@ export default async function DashboardLayout({
 
   if (!currentUser) {
     return (
-      <div className="flex flex-row items-center justify-center h-screen">
-        Ви не увійшли до системи!
-      </div>
+      <html lang="en">
+        <body className={roboto.className}>
+          <ToasterProvider />
+          <div className="flex flex-row items-center justify-center h-screen">
+            Ви не увійшли до системи!
+          </div>
+        </body>
+      </html>
     );
   }
 
@@ -55,7 +60,7 @@ export default async function DashboardLayout({
         <body className={roboto.className}>
           <ToasterProvider />
           <DNavbar currentUser={currentUser} />
-          <div className="grid grid-cols-[250px_1fr]">
+          <div className="grid grid-cols-[250px_1fr] h-full">
             <DMenu currentUser={currentUser} />
             <DContent>{children}</DContent>
           </div>

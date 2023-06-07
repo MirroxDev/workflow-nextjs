@@ -14,7 +14,7 @@ const DMenu: React.FC<DMenuProps> = ({ currentUser }) => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-3 flex-[0_0_250px] shadow-md bg-white border">
+    <nav className="flex flex-col gap-3 flex-[0_0_250px] shadow-md bg-white border h-full">
       <div className="flex flex-col w-full pt-5">
         <div className="font-semibold py-1 text-gray-800 px-6">Основне</div>
         <DMenuButton
@@ -28,8 +28,8 @@ const DMenu: React.FC<DMenuProps> = ({ currentUser }) => {
         <div className="font-semibold py-1 text-gray-800 px-6">Працівник</div>
         <DMenuButton
           text="Додати резюме"
-          current={pathname === "/dashboard/profile"}
-          path={() => router.push("/dashboard/profile")}
+          current={pathname === "/dashboard/add-resume"}
+          path={() => router.push("/dashboard/add-resume")}
         />
         <DMenuButton
           text="Мої портфоліо"
