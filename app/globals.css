@@ -27,13 +27,8 @@ body {
 }
 
 .input-base {
-  @apply bg-gray-50;
-  /* @apply border; */
-  /* @apply border-gray-300; */
   @apply text-gray-900;
   @apply rounded-lg;
-  /* @apply focus:border-blue-500; */
-  @apply block;
   @apply w-full;
   @apply p-2.5;
   @apply mt-2;

@@ -1,21 +1,21 @@
 "use client";
 
 import axios from "axios";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Select from "react-select";
 import {
   FieldValues,
   SubmitHandler,
   useFieldArray,
+  UseFormReset,
   useForm,
+  Controller,
 } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRef, useState } from "react";
 import { AiFillCloseSquare } from "react-icons/ai";
-import InputForm from "@/app/components/inputs/inputForm";
-
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+import InputForm from "@/app/components/inputs/InputForm";
+import SelectForm from "@/app/components/inputs/SelectForm";
+import { useCallback, useState } from "react";
 
 let regions = [
   { value: "1", label: "Apple" },
@@ -27,12 +27,12 @@ let resume_cat = [
   { value: "Дизайн", label: "Дизайн" },
   { value: "Веб-розробка", label: "Веб-розробка" },
   { value: "Малювання", label: "Малювання" },
+  { value: "Малювання2", label: "Малювання2" },
 ];
 
 interface AddResumeProps {}
 
-const AddResume: React.FC<AddResumeProps> = ({}) => {
-  const editor = useRef(null);
+const AddResume: React.FC<AddResumeProps> = () => {
   const router = useRouter();
 
   const {
@@ -70,6 +70,7 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
   } = useFieldArray({
     control,
     name: "urls",
+    keyName: "id",
   });
 
   const {
@@ -79,6 +80,7 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
   } = useFieldArray({
     control,
     name: "education",
+    keyName: "id",
   });
 
   const {
@@ -88,6 +90,7 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
   } = useFieldArray({
     control,
     name: "experience",
+    keyName: "id",
   });
 
   const setCustomValue = (id: string, value: any) => {
@@ -130,51 +133,69 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
               register={register}
               errors={errors}
             />
-            <label className="flex flex-col w-full">
-              Ваше Email
-              <input
-                {...register("yourEmail", { required: true, maxLength: 30 })}
-                placeholder="Ваш Email"
-                type="email"
-                className="input-base"
-              />
-            </label>
+            <InputForm
+              id="yourEmail"
+              label="Ваш Email"
+              placeholder="Ваш Email"
+              type="email"
+              maxLength={30}
+              required
+              register={register}
+              errors={errors}
+            />
           </div>
 
-          <div className="flex gap-4 mb-3">
-            <label className="flex flex-col w-full">
-              Регіон
-              <Select
-                id="regions"
-                placeholder="Регіон"
-                options={regions}
-                name={region}
-                onChange={(value) => setCustomValue("region", value)}
-                classNames={{
-                  control: () => "rounded-lg mt-2 p-1 bg-gray-50",
-                }}
-              />
-            </label>
-            <label className="flex flex-col w-full">
-              Професійне звання
-              <input
-                {...register("rank", { required: true, maxLength: 30 })}
-                placeholder="Професійне звання"
-                type="text"
-                className="input-base"
-              />
-            </label>
+                  <div className="flex gap-4 mb-3">
+                      
+            {/* <Controller
+              control={control}
+              name="region"
+              rules={{ required: "Оберіть регіон" }} // Правило проверки на обязательное поле
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={regions}
+                  placeholder="Оберіть регіон"
+                  onChange={(value) => field.onChange(value)}
+                  onBlur={field.onBlur}
+                  className={errors.region ? "is-invalid" : ""} // Добавьте класс "is-invalid" в случае ошибки
+                />
+              )}
+            />
+            {errors.region && (
+              <span className="error-text">{errors.region.message}</span>
+            )} */}
+
+            <SelectForm
+              label="Регіон"
+              value={region}
+              placeholder="Оберіть регіон"
+              options={regions}
+              onChange={(value) => setCustomValue("region", value)}
+            />
+
+            <InputForm
+              id="rank"
+              label="Професійне звання"
+              placeholder="Професійне звання"
+              type="text"
+              maxLength={30}
+              required
+              register={register}
+              errors={errors}
+            />
           </div>
           <div className="flex gap-4 mb-3">
-            <label className="flex flex-col w-full">
-              Місцезнаходження
-              <input
-                {...register("location", { required: true, maxLength: 30 })}
-                placeholder="Місцезнаходження"
-                type="text"
-                className="input-base"
-              />
-            </label>
+            <InputForm
+              id="location"
+              label="Місцезнаходження"
+              placeholder="Ваше місцезнаходження"
+              type="text"
+              maxLength={30}
+              required
+              register={register}
+              errors={errors}
+            />
             <label className="flex flex-col w-full">
               Фото
               <input type="file" onChange={() => {}} />
@@ -186,59 +207,54 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
             </label>
           </div>
           <div className="flex gap-4 mb-3">
-            <label className="flex flex-col w-full">
-              Відео (необовязково)
-              <input
-                {...register("videoSrc")}
-                placeholder="Відео"
-                type="url"
-                className="input-base"
-              />
-            </label>
-            <label className="flex flex-col w-full">
-              Категорія резюме
-              <Select
-                id="resume_cat"
-                placeholder="Категорія резюме"
-                options={resume_cat}
-                name={category}
-                onChange={(value) => setCustomValue("category", value)}
-                classNames={{
-                  control: () => "rounded-lg mt-2 p-1 bg-gray-50",
-                }}
-              />
-            </label>
+            <InputForm
+              id="videoSrc"
+              label="Відео (необовязково)"
+              placeholder="Посилання на відео"
+              type="url"
+              maxLength={30}
+              register={register}
+              errors={errors}
+            />
+            <SelectForm
+              label="Категорія резюме"
+              value={category}
+              placeholder="Оберіть категорію"
+              options={resume_cat}
+              onChange={(value) => setCustomValue("category", value)}
+            />
           </div>
           <div className="flex gap-4 mb-3">
-            <label className="flex flex-col w-full">
-              Мінімальна норма/год (опціонально)
-              <input
-                {...register("minrate")}
-                placeholder="наприклад 20"
-                type="text"
-                className="input-base"
-              />
-            </label>
+            <InputForm
+              id="minrate"
+              label="Мінімальна норма/год (опціонально)"
+              placeholder="наприклад 20"
+              type="number"
+              maxLength={30}
+              register={register}
+              errors={errors}
+            />
           </div>
           <div className="flex gap-4 mb-3">
             <label className="flex flex-col w-full gap-2">
               Зміст резюме
-              <JoditEditor
+              {/* <JoditEditor
                 value={content}
                 onChange={(value) => setCustomValue("content", value)}
-              />
+              /> */}
             </label>
           </div>
           <div className="flex gap-4 mb-3">
-            <label className="flex flex-col w-full">
-              Навички (необовязково)
-              <input
-                {...register("skills")}
-                placeholder="Розділіть комами список відповідних навичок"
-                type="text"
-                className="input-base"
-              />
-            </label>
+            <InputForm
+              id="skills"
+              label="Навички (необовязково)"
+              placeholder="Розділіть комами список відповідних навичок"
+              type="text"
+              maxLength={30}
+              required
+              register={register}
+              errors={errors}
+            />
           </div>
 
           {/* multi================================================== */}
@@ -248,14 +264,14 @@ const AddResume: React.FC<AddResumeProps> = ({}) => {
               {urlsFields.map(({ id, name, url }, index) => (
                 <div className="relative border-4 p-2 pt-7" key={id}>
                   <input
-                    {...register(`urls[${index}].name`)}
+                    {...register(`urls.${index}.name` as const)}
                     placeholder="Name"
                     defaultValue={name}
                     type="text"
                     className="input-base"
                   />
                   <input
-                    {...register(`urls[${index}].url`)}
+                    {...register(`urls[${index}].url` as const)}
                     placeholder="Url"
                     defaultValue={url}
                     type="url"
