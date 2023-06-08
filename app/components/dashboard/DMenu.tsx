@@ -32,9 +32,9 @@ const DMenu: React.FC<DMenuProps> = ({ currentUser }) => {
           path={() => router.push("/dashboard/add-resume")}
         />
         <DMenuButton
-          text="Мої портфоліо"
-          current={pathname === "/dashboard/profile"}
-          path={() => router.push("/dashboard/profile")}
+          text="Мої резюме"
+          current={pathname === "/dashboard/my-resumes"}
+          path={() => router.push("/dashboard/my-resumes")}
         />
         <DMenuButton
           text="Профіль"

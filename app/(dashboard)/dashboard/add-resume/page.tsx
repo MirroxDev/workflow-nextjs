@@ -7,20 +7,18 @@ import {
   FieldValues,
   SubmitHandler,
   useFieldArray,
-  UseFormReset,
   useForm,
   Controller,
 } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiFillCloseSquare } from "react-icons/ai";
 import InputForm from "@/app/components/inputs/InputForm";
-import SelectForm from "@/app/components/inputs/SelectForm";
-import { useCallback, useState } from "react";
+
 
 let regions = [
-  { value: "1", label: "Apple" },
-  { value: "2", label: "Ball" },
-  { value: "3", label: "Cat" },
+  { value: "Київ", label: "Київ" },
+  { value: "Суми", label: "Суми" },
+  { value: "Полтава", label: "Полтава" },
 ];
 
 let resume_cat = [
@@ -104,16 +102,16 @@ const AddResume: React.FC<AddResumeProps> = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
 
-    // axios
-    //   .post("/api/resumes", data)
-    //   .then(() => {
-    //     toast.success("Resume Created");
-    //     router.refresh();
-    //   })
-    //   .catch(() => {
-    //     toast.error("Something went wrong!");
-    //   })
-    //   .finally(() => {});
+    axios
+      .post("/api/resumes", data)
+      .then(() => {
+        toast.success("Резюме створено!");
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("Сталяся помилка!");
+      })
+      .finally(() => {});
   };
 
   return (
@@ -145,34 +143,39 @@ const AddResume: React.FC<AddResumeProps> = () => {
             />
           </div>
 
-                  <div className="flex gap-4 mb-3">
-                      
-            {/* <Controller
-              control={control}
-              name="region"
-              rules={{ required: "Оберіть регіон" }} // Правило проверки на обязательное поле
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  options={regions}
-                  placeholder="Оберіть регіон"
-                  onChange={(value) => field.onChange(value)}
-                  onBlur={field.onBlur}
-                  className={errors.region ? "is-invalid" : ""} // Добавьте класс "is-invalid" в случае ошибки
-                />
-              )}
-            />
-            {errors.region && (
-              <span className="error-text">{errors.region.message}</span>
-            )} */}
-
-            <SelectForm
-              label="Регіон"
-              value={region}
-              placeholder="Оберіть регіон"
-              options={regions}
-              onChange={(value) => setCustomValue("region", value)}
-            />
+          <div className="flex gap-4 mb-3">
+            <label className="flex flex-col w-full">
+              Оберіть регіон
+              <Controller
+                control={control}
+                name="region"
+                rules={{ required: "Оберіть регіон" }} // Правило проверки на обязательное поле
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={regions}
+                    placeholder="Оберіть регіон"
+                    onChange={(value) => field.onChange(value)}
+                    onBlur={field.onBlur}
+                    classNames={{
+                      control: () =>
+                        `rounded-lg mt-2 p-1 bg-gray-50 ${
+                          errors.region ? "!border-red-500" : "!border-gray-500"
+                        }`,
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 6,
+                      colors: {
+                        ...theme.colors,
+                        primary: "green",
+                        // primary25: "#ffe4e6",
+                      },
+                    })}
+                  />
+                )}
+              />
+            </label>
 
             <InputForm
               id="rank"
@@ -216,13 +219,40 @@ const AddResume: React.FC<AddResumeProps> = () => {
               register={register}
               errors={errors}
             />
-            <SelectForm
-              label="Категорія резюме"
-              value={category}
-              placeholder="Оберіть категорію"
-              options={resume_cat}
-              onChange={(value) => setCustomValue("category", value)}
-            />
+            <label className="flex flex-col w-full">
+              Оберіть категорію
+              <Controller
+                control={control}
+                name="category"
+                rules={{ required: "Оберіть категорію" }} // Правило проверки на обязательное поле
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={resume_cat}
+                    placeholder="Оберіть категорію"
+                    onChange={(value) => field.onChange(value)}
+                    onBlur={field.onBlur}
+                    classNames={{
+                      control: () =>
+                        `rounded-lg mt-2 p-1 bg-gray-50 ${
+                          errors.category
+                            ? "!border-red-500"
+                            : "!border-gray-500"
+                        }`,
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 6,
+                      colors: {
+                        ...theme.colors,
+                        primary: "green",
+                        // primary25: "#ffe4e6",
+                      },
+                    })}
+                  />
+                )}
+              />
+            </label>
           </div>
           <div className="flex gap-4 mb-3">
             <InputForm
@@ -251,7 +281,6 @@ const AddResume: React.FC<AddResumeProps> = () => {
               placeholder="Розділіть комами список відповідних навичок"
               type="text"
               maxLength={30}
-              required
               register={register}
               errors={errors}
             />
@@ -265,7 +294,7 @@ const AddResume: React.FC<AddResumeProps> = () => {
                 <div className="relative border-4 p-2 pt-7" key={id}>
                   <input
                     {...register(`urls.${index}.name` as const)}
-                    placeholder="Name"
+                    placeholder="Назва ресурсу"
                     defaultValue={name}
                     type="text"
                     className="input-base"
@@ -296,32 +325,39 @@ const AddResume: React.FC<AddResumeProps> = () => {
               <div className="flex flex-col w-full">
                 Досвід (необов'язково)
                 {experienceFields.map(
-                  ({ id, employer, jobtitle, startend, notes }, index) => (
+                  ({ id, employer, jobtitle, start, end, notes }, index) => (
                     <div className="relative border-4 p-2 pt-7" key={id}>
                       <input
                         {...register(`experience[${index}].employer`)}
-                        placeholder="employer"
+                        placeholder="Роботодавець"
                         defaultValue={employer}
                         type="text"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].jobtitle`)}
-                        placeholder="jobtitle"
+                        placeholder="Назва діяльності"
                         defaultValue={jobtitle}
                         type="text"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].startend`)}
-                        placeholder="startend"
-                        defaultValue={startend}
-                        type="text"
+                        placeholder="Початок роботи"
+                        defaultValue={start}
+                        type="date"
+                        className="input-base"
+                      />
+                      <input
+                        {...register(`experience[${index}].end`)}
+                        placeholder="Кінець роботи"
+                        defaultValue={end}
+                        type="date"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].notes`)}
-                        placeholder="notes"
+                        placeholder="Примітки"
                         defaultValue={notes}
                         type="text"
                         className="input-base"

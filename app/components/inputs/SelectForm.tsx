@@ -27,7 +27,6 @@ const SelectForm: React.FC<SelectFormProps> = ({
     <>
       <label className="flex flex-col w-full">
         {label}
-
         <Select
           placeholder={placeholder}
           isClearable

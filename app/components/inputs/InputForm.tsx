@@ -38,7 +38,7 @@ const InputForm: React.FC<InputFormProps> = ({
         type={type}
         className={`
       input-base
-      border-2
+      border
       bg-white 
       outline-none 
       ${errors[id] ? " border-red-500" : " border-gray-500"}

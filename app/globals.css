@@ -32,6 +32,8 @@ body {
   @apply w-full;
   @apply p-2.5;
   @apply mt-2;
+  @apply border;
+
 }
 
 .select-base {

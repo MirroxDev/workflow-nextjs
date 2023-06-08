@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
-// import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(request: Request) {
-  //   const currentUser = await getCurrentUser();
-  //   if (!currentUser) {
-  //     return NextResponse.error();
-  //   }
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return NextResponse.error();
+  }
   const body = await request.json();
   const {
     yourName,
@@ -21,43 +22,70 @@ export async function POST(request: Request) {
     content,
     skills,
     experience,
+    education,
+    urls,
   } = body;
 
-  console.log(experience);
-
-  const currentDate = new Date();
-  const currentUser = "64761d0b32474341c854601e"
+  const convertToISOString = (dateString: any) => {
+    const dateTimeString = dateString + "T00:00:00.000Z";
+    const dateTime = new Date(dateTimeString);
+    const formattedDateTimeString = dateTime.toISOString();
+    return formattedDateTimeString;
+}
 
   const resume = await prisma.resume.create({
     data: {
       yourName,
       yourEmail,
-      region,
+      region: region.value,
       location,
       photoSrc,
       fileSrc,
       videoSrc,
-      category,
+      category: category.value,
       minrate,
       content,
       skills,
-      userId: currentUser,
+      userId: currentUser.id,
       experience: {
         connectOrCreate: experience.map((exp: any) => ({
           create: {
-            employer: exp.name,
-            jobTitle: exp.name,
-            startDate: currentDate,
-            endDate: currentDate,
-            notes: exp.age,
+            employer: exp.employer,
+            jobTitle: exp.jobtitle,
+            startDate: convertToISOString(exp.startend),
+            endDate: convertToISOString(exp.end),
+            notes: exp.notes,
           },
-          where: { id: currentUser },
+          where: { id: currentUser.id },
+        })),
+      },
+      education: {
+        connectOrCreate: education.map((edu: any) => ({
+          create: {
+            schoolname: edu.schoolname,
+            qualification: edu.qualification,
+            startDate: convertToISOString(edu.startDate),
+            endDate: convertToISOString(edu.endDate),
+            notes: edu.notes,
+          },
+          where: { id: currentUser.id },
+        })),
+      },
+      urls: {
+        connectOrCreate: urls.map((u: any) => ({
+          create: {
+            name: u.name,
+            url: u.url,
+          },
+          where: { id: currentUser.id },
         })),
       },
     },
     include: {
-      experience: true
-    }
+      experience: true,
+      urls: true,
+      education: true,
+    },
   });
 
   return NextResponse.json(resume);
