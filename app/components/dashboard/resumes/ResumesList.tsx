@@ -1,7 +1,9 @@
 "use client";
+
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+
 
 interface ResumesItemProps {
   data: any;
@@ -42,7 +44,7 @@ const ResumesItem: React.FC<ResumesItemProps> = ({ data }) => {
       <table className="table-auto w-full rounded-xl overflow-hidden">
         <thead>
           <tr className="bg-gray-800 divide-x">
-            <th className="text-white py-4">Ім'я</th>
+            <th className="text-white py-4">Імя</th>
             <th className="text-white py-4">Вміння</th>
             <th className="text-white py-4">Місцезнаходження</th>
             <th className="text-white py-4">Категорія</th>
@@ -53,13 +55,13 @@ const ResumesItem: React.FC<ResumesItemProps> = ({ data }) => {
         <tbody className="bg-white">
           {data?.map((resume: any) => {
             return (
-              <tr className="text-center" key={resume.id}>
+              <tr className="text-center border-b" key={resume.id}>
                 <td className="py-2 px-2">{resume.yourName}</td>
                 <td className="py-2 px-2">{resume.skills}</td>
                 <td className="py-2 px-2">{resume.region}</td>
                 <td className="py-2 px-2">{resume.category}</td>
                 <td className="py-2 px-2">{formatDate(resume.createdAt)}</td>
-                <td className="py-2 px-2">
+                <td className="py-2 px-2 flex items-center justify-center">
                   <button
                     onClick={() => {
                       if (
@@ -79,6 +81,12 @@ const ResumesItem: React.FC<ResumesItemProps> = ({ data }) => {
           })}
         </tbody>
       </table>
+
+      <div className="mt-4">
+        <button onClick={()=> router.push("/dashboard/add-resume")} className="bg-green-600 text-white py-4 px-4 rounded-md hover:bg-green-800 transition">
+          Додати резюме
+        </button>
+      </div>
     </>
   );
 };
