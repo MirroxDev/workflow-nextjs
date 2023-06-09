@@ -22,7 +22,7 @@ const UserBox: React.FC<UserBoxProps> = ({ currentUser }) => {
         alt="User Avatar"
         width={30}
         height={30}
-        src={currentUser?.image}
+        src={currentUser?.image || ""}
       />
       {userMenu && (
         <div className="absolute top-[70px] right-0 bg-white border-b-2 min-w-max flex flex-col divide-y-2 shadow-sm rounded-bl-md rounded-br-md overflow-hidden">

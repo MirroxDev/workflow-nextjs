@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import { AiFillCloseSquare } from "react-icons/ai";
 import InputForm from "@/app/components/inputs/InputForm";
 
-
 let regions = [
   { value: "Київ", label: "Київ" },
   { value: "Суми", label: "Суми" },
@@ -27,6 +26,12 @@ let resume_cat = [
   { value: "Малювання", label: "Малювання" },
   { value: "Малювання2", label: "Малювання2" },
 ];
+
+type FieldArrayItem = {
+  id: string;
+  name: string;
+  url: string;
+};
 
 interface AddResumeProps {}
 
@@ -289,20 +294,18 @@ const AddResume: React.FC<AddResumeProps> = () => {
           {/* multi================================================== */}
           <div className="flex gap-4 mb-3">
             <div className="flex flex-col w-full">
-              URL(и) (необов'язково)
-              {urlsFields.map(({ id, name, url }, index) => (
+              URL(и) (необовязково)
+              {urlsFields.map(({ id }, index) => (
                 <div className="relative border-4 p-2 pt-7" key={id}>
-                  <input
-                    {...register(`urls.${index}.name` as const)}
-                    placeholder="Назва ресурсу"
-                    defaultValue={name}
-                    type="text"
-                    className="input-base"
-                  />
+                    <input
+                      {...register(`urls.${index}.name` as const)}
+                      placeholder="Назва ресурсу"
+                      type="text"
+                      className="input-base"
+                    />
                   <input
                     {...register(`urls[${index}].url` as const)}
                     placeholder="Url"
-                    defaultValue={url}
                     type="url"
                     className="input-base"
                   />
@@ -323,42 +326,37 @@ const AddResume: React.FC<AddResumeProps> = () => {
             </div>
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full">
-                Досвід (необов'язково)
+                Досвід (необовязково)
                 {experienceFields.map(
-                  ({ id, employer, jobtitle, start, end, notes }, index) => (
+                  ({ id }, index) => (
                     <div className="relative border-4 p-2 pt-7" key={id}>
                       <input
                         {...register(`experience[${index}].employer`)}
                         placeholder="Роботодавець"
-                        defaultValue={employer}
                         type="text"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].jobtitle`)}
                         placeholder="Назва діяльності"
-                        defaultValue={jobtitle}
                         type="text"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].startend`)}
                         placeholder="Початок роботи"
-                        defaultValue={start}
                         type="date"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].end`)}
                         placeholder="Кінець роботи"
-                        defaultValue={end}
                         type="date"
                         className="input-base"
                       />
                       <input
                         {...register(`experience[${index}].notes`)}
                         placeholder="Примітки"
-                        defaultValue={notes}
                         type="text"
                         className="input-base"
                       />
@@ -389,42 +387,37 @@ const AddResume: React.FC<AddResumeProps> = () => {
               Освіта (за бажанням)
               {educationFields.map(
                 (
-                  { id, schoolname, qualification, startDate, endDate, notes },
+                  { id },
                   index
                 ) => (
                   <div className="relative border-4 p-2 pt-7" key={id}>
                     <input
                       {...register(`education[${index}].schoolname`)}
                       placeholder="Назва школи"
-                      defaultValue={schoolname}
                       type="text"
                       className="input-base"
                     />
                     <input
                       {...register(`education[${index}].qualification`)}
                       placeholder="Кваліфікація(ї)"
-                      defaultValue={qualification}
                       type="text"
                       className="input-base"
                     />
                     <input
                       {...register(`education[${index}].startDate`)}
                       placeholder="Дата початку навчання"
-                      defaultValue={startDate}
                       type="date"
                       className="input-base"
                     />
                     <input
                       {...register(`education[${index}].endDate`)}
                       placeholder="Дата закінчення навчання"
-                      defaultValue={endDate}
                       type="date"
                       className="input-base"
                     />
                     <input
                       {...register(`education[${index}].notes`)}
                       placeholder="Примітки (не обовязково)"
-                      defaultValue={notes}
                       type="text"
                       className="input-base"
                     />
