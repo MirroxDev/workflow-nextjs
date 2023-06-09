@@ -29,7 +29,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <LoginModal />
         <Navbar currentUser={currentUser} />
-        <div className="pb-2 pt-2">{children}</div>
+        <div className="pt-[70px]">{children}</div>
       </body>
     </html>
   );
