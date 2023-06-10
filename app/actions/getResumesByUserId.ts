@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
-export default async function getResumesById() {
+export default async function getResumesByUserId() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {

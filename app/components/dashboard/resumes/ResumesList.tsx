@@ -1,9 +1,9 @@
 "use client";
 
+import { SafeUser } from "@/app/types";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
 
 interface ResumesItemProps {
   data: any;
@@ -83,7 +83,9 @@ const ResumesItem: React.FC<ResumesItemProps> = ({ data }) => {
       </table>
 
       <div className="mt-4">
-        <button onClick={()=> router.push("/dashboard/add-resume")} className="bg-green-600 text-white py-4 px-4 rounded-md hover:bg-green-800 transition">
+        <button
+          onClick={() => router.push("/dashboard/add-resume")}
+          className="bg-green-600 text-white py-4 px-4 rounded-md hover:bg-green-800 transition">
           Додати резюме
         </button>
       </div>

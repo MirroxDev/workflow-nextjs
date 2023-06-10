@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 interface ResumeItemProps {
@@ -12,6 +13,7 @@ interface ResumeItemProps {
 }
 
 const ResumeItem: React.FC<ResumeItemProps> = ({
+  id,
   name,
   rank,
   location,
@@ -23,10 +25,8 @@ const ResumeItem: React.FC<ResumeItemProps> = ({
   const elements = clearElements.split(",");
 
   return (
-    <div>
-      <div
-        onClick={() => {}}
-        className="flex flex-row p-8 gap-8 border bg-white cursor-pointer hover:bg-green-200 transition">
+    <Link href={`/all-resumes/${id}`}>
+      <div className="flex flex-row p-8 gap-8 border bg-white cursor-pointer hover:bg-green-200 transition">
         <div className="">
           <Image
             alt="candidate icon"
@@ -61,7 +61,7 @@ const ResumeItem: React.FC<ResumeItemProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

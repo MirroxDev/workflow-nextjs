@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 
 interface IParams {
-  resumesId?: string;
+  categoryId?: string;
 }
 
 export async function DELETE(
@@ -17,28 +17,21 @@ export async function DELETE(
     return NextResponse.error();
   }
 
-  const { resumesId } = params;
+  const { categoryId } = params;
 
-  if (!resumesId || typeof resumesId !== "string") {
+  if (!categoryId || typeof categoryId !== "string") {
     throw new Error("Invalid ID");
   }
 
-  if (currentUser.role === "ADMIN") {
-    const resume = await prisma.resume.deleteMany({
-      where: {
-        id: resumesId,
-      },
-    });
-    
-    return NextResponse.json(resume);
+  if (currentUser.role !== "ADMIN") {
+    return NextResponse.error();
   }
 
-  const resume = await prisma.resume.deleteMany({
+  const categories = await prisma.categories.deleteMany({
     where: {
-      id: resumesId,
-      userId: currentUser.id,
+      id: categoryId,
     },
   });
 
-  return NextResponse.json(resume);
+  return NextResponse.json(categories);
 }

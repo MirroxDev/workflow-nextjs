@@ -9,7 +9,8 @@ interface InputFormProps {
   disabled?: boolean;
   placeholder: string;
   required?: boolean;
-  maxLength: number;
+  maxLength?: number;
+  minLength?: number;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
 }
@@ -20,7 +21,8 @@ const InputForm: React.FC<InputFormProps> = ({
   type = "text",
   disabled,
   required,
-  maxLength,
+  maxLength = 30,
+  minLength = 1,
   placeholder,
   register,
   errors,
@@ -32,6 +34,7 @@ const InputForm: React.FC<InputFormProps> = ({
         {...register(id, {
           required: required,
           maxLength: maxLength,
+          minLength: minLength,
         })}
         placeholder={placeholder}
         disabled={disabled}

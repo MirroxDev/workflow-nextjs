@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { AiFillCloseSquare } from "react-icons/ai";
 import InputForm from "@/app/components/inputs/InputForm";
 import JoditEditor from "@/app/components/JoditEditor";
+import getCategories from "@/app/actions/getCategories";
 
 let regions = [
   { value: "Київ", label: "Київ" },

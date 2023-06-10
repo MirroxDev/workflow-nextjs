@@ -8,7 +8,7 @@ import {
   useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
-import getResume from "../actions/getResume";
+import getResume from "../actions/getResumes";
 
 export default async function Home() {
   // const [data, setData] = useState("");

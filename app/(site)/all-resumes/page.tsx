@@ -1,4 +1,4 @@
-import getResume from "@/app/actions/getResume";
+import getResume from "@/app/actions/getResumes";
 import Container from "@/app/components/Container";
 import ResumeItem from "@/app/components/site/all-resumes/ResumeItem";
 

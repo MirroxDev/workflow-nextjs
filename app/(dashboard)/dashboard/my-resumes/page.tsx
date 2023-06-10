@@ -1,4 +1,4 @@
-import getResumesById from "@/app/actions/getResumesById";
+import getResumesById from "@/app/actions/getResumesByUserId";
 import ResumesList from "@/app/components/dashboard/resumes/ResumesList";
 
 const MyResumes = async () => {

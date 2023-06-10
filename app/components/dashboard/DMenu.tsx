@@ -43,6 +43,27 @@ const DMenu: React.FC<DMenuProps> = ({ currentUser }) => {
         />
       </div>
       <hr />
+      {currentUser?.role === "ADMIN" && (
+        <>
+          <div className="flex flex-col w-full">
+            <div className="font-semibold py-1 text-gray-800 px-6">
+              Адміністратор
+            </div>
+            <DMenuButton
+              text="Всі резюме"
+              current={pathname === "/dashboard/admin/all-resumes"}
+              path={() => router.push("/dashboard/admin/all-resumes")}
+            />
+            <DMenuButton
+              text="Створити категорію"
+              current={pathname === "/dashboard/admin/add-category"}
+              path={() => router.push("/dashboard/admin/add-category")}
+            />
+          </div>
+          <hr />
+        </>
+      )}
+
       <div className="flex flex-col w-full">
         <div className="font-semibold py-1 text-gray-800 px-6">Акаунт</div>
         <DMenuButton
@@ -67,8 +88,7 @@ const DMenu: React.FC<DMenuProps> = ({ currentUser }) => {
         hover:text-green-600
         hover:bg-green-100
         hover:border-green-600
-        `}
-        >
+        `}>
           Вихід
         </div>
       </div>
