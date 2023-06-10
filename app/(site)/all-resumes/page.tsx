@@ -6,27 +6,26 @@ const AllResumes = async () => {
   const allResumes = await getResume();
 
   return (
-    <Container>
+    <Container small>
       <div
         className="
     grid
     grid-cols-4
     ">
         <div className="col-span-3">
-        {allResumes.map((resume: any) => {
-          return (
-            <ResumeItem
-              key={resume.id}
-              id={resume.id}
-              name={resume.yourName}        
-              rank={resume.category}
-              location={resume.region}
-              skills={resume.skills}
-              minrate={resume.minrate}
-            />
-          );
-        })}
-          
+          {allResumes.map((resume: any) => {
+            return (
+              <ResumeItem
+                key={resume.id}
+                id={resume.id}
+                name={resume.yourName}
+                rank={resume.rank}
+                location={resume.region}
+                skills={resume.skills}
+                minrate={resume.minrate}
+              />
+            );
+          })}
         </div>
         <div className="col-span-1">2</div>
       </div>

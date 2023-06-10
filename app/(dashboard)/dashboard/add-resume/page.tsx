@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import { AiFillCloseSquare } from "react-icons/ai";
 import InputForm from "@/app/components/inputs/InputForm";
+import JoditEditor from "@/app/components/JoditEditor";
 
 let regions = [
   { value: "Київ", label: "Київ" },
@@ -26,12 +27,6 @@ let resume_cat = [
   { value: "Малювання", label: "Малювання" },
   { value: "Малювання2", label: "Малювання2" },
 ];
-
-type FieldArrayItem = {
-  id: string;
-  name: string;
-  url: string;
-};
 
 interface AddResumeProps {}
 
@@ -51,6 +46,7 @@ const AddResume: React.FC<AddResumeProps> = () => {
       yourName: "",
       yourEmail: "",
       region: "",
+      rank: "",
       location: "",
       photoSrc: "",
       fileSrc: "",
@@ -273,10 +269,10 @@ const AddResume: React.FC<AddResumeProps> = () => {
           <div className="flex gap-4 mb-3">
             <label className="flex flex-col w-full gap-2">
               Зміст резюме
-              {/* <JoditEditor
+              <JoditEditor
                 value={content}
                 onChange={(value) => setCustomValue("content", value)}
-              /> */}
+              />
             </label>
           </div>
           <div className="flex gap-4 mb-3">
@@ -297,12 +293,12 @@ const AddResume: React.FC<AddResumeProps> = () => {
               URL(и) (необовязково)
               {urlsFields.map(({ id }, index) => (
                 <div className="relative border-4 p-2 pt-7" key={id}>
-                    <input
-                      {...register(`urls.${index}.name` as const)}
-                      placeholder="Назва ресурсу"
-                      type="text"
-                      className="input-base"
-                    />
+                  <input
+                    {...register(`urls.${index}.name` as const)}
+                    placeholder="Назва ресурсу"
+                    type="text"
+                    className="input-base"
+                  />
                   <input
                     {...register(`urls[${index}].url` as const)}
                     placeholder="Url"
@@ -327,48 +323,46 @@ const AddResume: React.FC<AddResumeProps> = () => {
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full">
                 Досвід (необовязково)
-                {experienceFields.map(
-                  ({ id }, index) => (
-                    <div className="relative border-4 p-2 pt-7" key={id}>
-                      <input
-                        {...register(`experience[${index}].employer`)}
-                        placeholder="Роботодавець"
-                        type="text"
-                        className="input-base"
-                      />
-                      <input
-                        {...register(`experience[${index}].jobtitle`)}
-                        placeholder="Назва діяльності"
-                        type="text"
-                        className="input-base"
-                      />
-                      <input
-                        {...register(`experience[${index}].startend`)}
-                        placeholder="Початок роботи"
-                        type="date"
-                        className="input-base"
-                      />
-                      <input
-                        {...register(`experience[${index}].end`)}
-                        placeholder="Кінець роботи"
-                        type="date"
-                        className="input-base"
-                      />
-                      <input
-                        {...register(`experience[${index}].notes`)}
-                        placeholder="Примітки"
-                        type="text"
-                        className="input-base"
-                      />
-                      <button
-                        className="absolute top-0 right-0 w-[30px] h-[30px]"
-                        type="button"
-                        onClick={() => experienceRemove(index)}>
-                        <AiFillCloseSquare className="fill-red-500" size={30} />
-                      </button>
-                    </div>
-                  )
-                )}
+                {experienceFields.map(({ id }, index) => (
+                  <div className="relative border-4 p-2 pt-7" key={id}>
+                    <input
+                      {...register(`experience[${index}].employer`)}
+                      placeholder="Роботодавець"
+                      type="text"
+                      className="input-base"
+                    />
+                    <input
+                      {...register(`experience[${index}].jobtitle`)}
+                      placeholder="Назва діяльності"
+                      type="text"
+                      className="input-base"
+                    />
+                    <input
+                      {...register(`experience[${index}].startend`)}
+                      placeholder="Початок роботи"
+                      type="date"
+                      className="input-base"
+                    />
+                    <input
+                      {...register(`experience[${index}].end`)}
+                      placeholder="Кінець роботи"
+                      type="date"
+                      className="input-base"
+                    />
+                    <input
+                      {...register(`experience[${index}].notes`)}
+                      placeholder="Примітки"
+                      type="text"
+                      className="input-base"
+                    />
+                    <button
+                      className="absolute top-0 right-0 w-[30px] h-[30px]"
+                      type="button"
+                      onClick={() => experienceRemove(index)}>
+                      <AiFillCloseSquare className="fill-red-500" size={30} />
+                    </button>
+                  </div>
+                ))}
                 <button
                   className="bg-gray-500 mt-3 text-white py-2 px-2 rounded-md hover:bg-yellow-600 transition"
                   type="button"
@@ -385,51 +379,46 @@ const AddResume: React.FC<AddResumeProps> = () => {
           <div className="flex gap-4 mb-3">
             <div className="flex flex-col w-full">
               Освіта (за бажанням)
-              {educationFields.map(
-                (
-                  { id },
-                  index
-                ) => (
-                  <div className="relative border-4 p-2 pt-7" key={id}>
-                    <input
-                      {...register(`education[${index}].schoolname`)}
-                      placeholder="Назва школи"
-                      type="text"
-                      className="input-base"
-                    />
-                    <input
-                      {...register(`education[${index}].qualification`)}
-                      placeholder="Кваліфікація(ї)"
-                      type="text"
-                      className="input-base"
-                    />
-                    <input
-                      {...register(`education[${index}].startDate`)}
-                      placeholder="Дата початку навчання"
-                      type="date"
-                      className="input-base"
-                    />
-                    <input
-                      {...register(`education[${index}].endDate`)}
-                      placeholder="Дата закінчення навчання"
-                      type="date"
-                      className="input-base"
-                    />
-                    <input
-                      {...register(`education[${index}].notes`)}
-                      placeholder="Примітки (не обовязково)"
-                      type="text"
-                      className="input-base"
-                    />
-                    <button
-                      className="absolute top-0 right-0 w-[30px] h-[30px]"
-                      type="button"
-                      onClick={() => educationRemove(index)}>
-                      <AiFillCloseSquare className="fill-red-500" size={30} />
-                    </button>
-                  </div>
-                )
-              )}
+              {educationFields.map(({ id }, index) => (
+                <div className="relative border-4 p-2 pt-7" key={id}>
+                  <input
+                    {...register(`education[${index}].schoolname`)}
+                    placeholder="Назва школи"
+                    type="text"
+                    className="input-base"
+                  />
+                  <input
+                    {...register(`education[${index}].qualification`)}
+                    placeholder="Кваліфікація(ї)"
+                    type="text"
+                    className="input-base"
+                  />
+                  <input
+                    {...register(`education[${index}].startDate`)}
+                    placeholder="Дата початку навчання"
+                    type="date"
+                    className="input-base"
+                  />
+                  <input
+                    {...register(`education[${index}].endDate`)}
+                    placeholder="Дата закінчення навчання"
+                    type="date"
+                    className="input-base"
+                  />
+                  <input
+                    {...register(`education[${index}].notes`)}
+                    placeholder="Примітки (не обовязково)"
+                    type="text"
+                    className="input-base"
+                  />
+                  <button
+                    className="absolute top-0 right-0 w-[30px] h-[30px]"
+                    type="button"
+                    onClick={() => educationRemove(index)}>
+                    <AiFillCloseSquare className="fill-red-500" size={30} />
+                  </button>
+                </div>
+              ))}
               <button
                 className="bg-gray-500 mt-3 text-white py-2 px-2 rounded-md hover:bg-yellow-600 transition"
                 type="button"

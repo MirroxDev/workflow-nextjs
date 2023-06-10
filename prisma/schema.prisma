@@ -64,6 +64,7 @@ model Resume {
   yourName  String
   yourEmail String
   region    String?
+  rank    String?
   location  String?
   photoSrc  String?
   fileSrc   String?
