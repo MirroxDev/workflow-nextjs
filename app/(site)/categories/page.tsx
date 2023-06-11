@@ -13,17 +13,26 @@ const Categories = async () => {
         </Container>
       </header>
       <Container small>
-        <div className="h-full grid grid-cols-3 items-center justify-center pt-10 pb-10">
+        <div className="h-full grid grid-cols-3 items-center justify-center gap-4 pt-10 pb-10">
           {categories.map((category: any) => {
             return (
               <>
                 <Link
                   className="
                     text-gray-700
-                   hover:text-green-600
+                   hover:text-green-400
                     transition
                     text-center
                     text-xl
+                    bg-slate-500
+                    rounded-md
+                    text-white
+                    h-full
+                    flex
+                    items-center
+                    justify-center
+                    py-4
+                    px-2
                     "
                   href={`/categories/${category.slug}`}>
                   {category.title}
