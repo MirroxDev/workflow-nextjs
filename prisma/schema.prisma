@@ -61,6 +61,7 @@ model Account {
 model Categories {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  slug      String
   createdAt DateTime @default(now())
 }
 
@@ -79,7 +80,9 @@ model Resume {
   minrate   String?
   content   String
   skills    String?
-  createdAt DateTime     @default(now())
+
+  slug      String
+  createdAt DateTime @default(now())
 
   urls       Urls[]
   education  Education[]

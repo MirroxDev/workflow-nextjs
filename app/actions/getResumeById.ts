@@ -8,8 +8,6 @@ export default async function getResumeById(params: IParams) {
   try {
 
     const { slug } = params;
-    
-    console.log("GET " + params);
 
     const resume = await prisma.resume.findUnique({
       where: {

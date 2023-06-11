@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import slugify from "slugify";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -32,7 +33,19 @@ export async function POST(request: Request) {
     const dateTime = new Date(dateTimeString);
     const formattedDateTimeString = dateTime.toISOString();
     return formattedDateTimeString;
-}
+  };
+
+  console.log(category);
+
+  let text = String(yourName + "-" + category.label + "-" + rank);
+  const slug = slugify(text, {
+    replacement: "-", // replace spaces with replacement character, defaults to `-`
+    remove: undefined, // remove characters that match regex, defaults to `undefined`
+    lower: true, // convert to lower case, defaults to `false`
+    strict: true, // strip special characters except replacement, defaults to `false`
+    locale: "en", // language code of the locale to use
+    trim: true, // trim leading and trailing replacement chars, defaults to `true`
+  });
 
   const resume = await prisma.resume.create({
     data: {
@@ -40,11 +53,12 @@ export async function POST(request: Request) {
       yourEmail,
       region: region.value,
       rank,
+      slug: slug,
       location,
       photoSrc,
       fileSrc,
       videoSrc,
-      category: category.value,
+      category: category.slug,
       minrate,
       content,
       skills,

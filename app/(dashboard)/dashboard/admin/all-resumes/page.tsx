@@ -1,6 +1,6 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getResumes from "@/app/actions/getResumes";
-import ResumesList from "@/app/components/dashboard/resumes/ResumesList";
+import AdminAllResumes from "./AdminAllResumes";
 
 const AllResumes = async () => {
   const currentUser = await getCurrentUser();
@@ -17,7 +17,7 @@ const AllResumes = async () => {
   if (currentUser.role === "ADMIN") {
     return (
       <div>
-        <ResumesList data={allResumes} />
+        <AdminAllResumes data={allResumes} />
       </div>
     );
   }

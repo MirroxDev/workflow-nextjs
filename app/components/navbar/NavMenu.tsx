@@ -8,6 +8,7 @@ const NavMenu = () => {
       id="menu"
       className="flex flex-row items-center justify-center gap-2 h-[70px]">
       <Link href="/all-resumes">Всі резюме</Link>
+      <Link href="/categories">Всі категорії</Link>
     </div>
   );
 };
